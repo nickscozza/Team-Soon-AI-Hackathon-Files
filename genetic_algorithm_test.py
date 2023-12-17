@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+#IMPORTANT: Most of this code looks abnormal / strange due to experimentation with chatgpt. Therefore, disregard any code that does not make sense.
+#By 10am 18/12/23, it will be massively modifed to make sense. 
+
 from genetic_algorithm import GeneticAlgorithm
 
 
