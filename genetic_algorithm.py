@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 # h/t: https://machinelearningmastery.com/simple-genetic-algorithm-from-scratch-in-python/
 
+#IMPORTANT: Most of this code looks abnormal / strange due to experimentation with chatgpt.
+#By 18/12/23, it will be massively modifed to make sense. Thanks for your patience.
 from numpy.random import rand, random
 # genetic algorithm search of the one max optimization problem
 from numpy.random import randint
