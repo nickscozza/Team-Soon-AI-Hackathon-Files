@@ -1,16 +1,30 @@
+#Header Section:
+#Path to the Python 3 Interpreter
 #!/usr/bin/env python3
+#Encoding Declaration (utf-8)
 # -*- coding: utf-8 -*-
-# h/t: https://machinelearningmastery.com/simple-genetic-algorithm-from-scratch-in-python/
+#Acknowledgment
+#Source: https://machinelearningmastery.com/simple-genetic-algorithm-from-scratch-in-python/
 
 #IMPORTANT: Most of this code looks abnormal / strange due to experimentation with chatgpt.
 #By 18/12/23, it will be massively modifed to make sense. Thanks for your patience.
-from numpy.random import rand, random
-# genetic algorithm search of the one max optimization problem
-from numpy.random import randint
 
+#Import Section:
+#rand() and random() are functions to import random floating-point numbers between 0 and 1
+#Useful for setting probability measures.
+from numpy.random import rand, random
+
+#randint(low, high) is a function that generates an random integer between 'low' (inclusive) and 'high' (exclusive).
+#Useful for tasks like randomly initializing the genetic material (bitstrings) in the population
+
+from numpy.random import randint
+#randrange(start, stop) is a function that generates an random integer between a range ('start' (inclusive) and 'stop' (exclusive) )
+#Useful for determining a crossover point during the genetic crossover operation (where genetic material is exchanged between 2 parents)
 from random import randrange
 
+#Main Code section:
 # genetic algorithm
+#
 class GeneticAlgorithm():
 
     @classmethod
