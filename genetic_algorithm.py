@@ -38,7 +38,7 @@ class GeneticAlgorithm():
                 # crossover and mutation
                 for c in cls._crossover(p1, p2, r_cross, r_ins, r_del):
                     # mutation
-                    cls._mutation(c, r_mut)
+                    cls._mutation(c, r_mut, r_ins)
                     # store for next generation
                     children.append(c)
             # replace population
@@ -85,9 +85,13 @@ class GeneticAlgorithm():
         
 
     @classmethod
-    def _crossover(cls, p1, p2, r_cross, r_ins, r_del):
+    def _crossover(cls, p1, p2, r_cross, r_ins, r_del, max_children_per_parent = 20):
         # children are copies of parents by default
         c1, c2 = p1.copy(), p2.copy()
+    
+        # Track the number of children generated for each parent
+        num_children_c1, num_children_c2 = 0, 0
+    
         # check for recombination
         if random() < r_cross:
             # perform even crossover
@@ -103,29 +107,54 @@ class GeneticAlgorithm():
             # decide whether to perform insertion for even crossover
             if random() < r_ins:
                 cls._insertion(c1_even, r_ins)
+                num_children_c1 += 1
 
             # decide whether to perform insertion for uneven crossover
             if random() < r_ins:
                 cls._insertion(c2_uneven, r_ins)
+                num_children_c2 += 1
 
             # decide whether to perform deletion for even crossover
             if random() < r_del and len(c1_even) > 1:
                 cls._deletion(c1_even)
+                num_children_c1 -= 1
 
             # decide whether to perform deletion for uneven crossover
             if random() < r_del and len(c2_uneven) > 1:
                 cls._deletion(c2_uneven)
+                num_children_c2 -= 1
+
+            # Check if the number of children exceeds the limit
+            if num_children_c1 >= max_children_per_parent:
+                c1_even, c2_even = [], []  # Empty lists to indicate no more children
+            if num_children_c2 >= max_children_per_parent:
+                c1_uneven, c2_uneven = [], []  # Empty lists to indicate no more children
 
             # return both even and uneven crossover children as flat lists
             return [c1_even, c2_even, c1_uneven, c2_uneven]
 
         # if no recombination, return the original parents as flat lists
         return [c1, c2]
-
+    
     @classmethod
-    def _mutation(cls, bitstring, r_mut):
+    def _mutation(cls, bitstring, r_mut, r_ins):
+        """
+        Perform mutation on the given bitstring.
+        Parameters:
+        - bitstring (list): The bitstring to perform mutation on.
+        -  r_mut (float): The mutation rate, determining the likelihood of mutation.
+        - r_ins (float): The insertion rate, determining the likelihood of insertion.
+
+        Returns:
+        - list: The mutated bitstring.
+        """
         for i in range(len(bitstring)):
-            # check for a mutation
+            # check for mutation
             if rand() < r_mut:
                 # flip the bit
-                bitstring[i] = 1 - int(bitstring[i])
+                bitstring[i] = 1 - bitstring[i]
+            
+        # perform insertion mutation
+        cls._insertion(bitstring, r_ins)
+    
+        return bitstring
