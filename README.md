@@ -1,2 +1,2 @@
 # AI-Hackathon
-AI Team github
+This is the Hackathon Repo for team Soon.
