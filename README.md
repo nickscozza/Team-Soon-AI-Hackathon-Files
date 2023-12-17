@@ -1,2 +1,2 @@
 # AI-Hackathon
-This is the Hackathon Repo for team Soon.
+This is the Hackathon Repo for team Soon. Welcome
