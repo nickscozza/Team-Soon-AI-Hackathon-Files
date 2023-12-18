@@ -8,11 +8,12 @@ A Large Language Model is an advanced artificial intelligence model designed to 
 
 What are genetic algorithms?
 
-In the context of using Large Language Models (LLMs) to engineer prompts, a genetic algorithm (GA) can be employed as a method for optimizing or evolving prompts to achieve specific objectives. 
+In the context of using Large Language Models (LLMs) to engineer prompts, a genetic algorithm (GA) can be employed as a method for optimizing or evolving prompts to achieve specific objectives. In our case, we are evolving prompts to produce outputs that are similar to the provided target output.
 
 Ok, so what is the goal of our project?
 
-The goal of our project is to create a genetic algorithm to reverse engineer an effective prompt to an LLM (Large Language Model) that will cause the LLM to generate output similar to a supplied target output.
+The goal of our project is to create a genetic algorithm to reverse engineer an effective prompt to an LLM (Large Language Model) This prompt must produce outputs similar to the desired output.
+(Note: Scott has found a dataset that contains the desired output for each prompt. Therefor)
 
 Project Requirements
 
@@ -32,6 +33,8 @@ To achieve these goals effectively, the focus is on:
 
 - How to optimize the performance of the genetic algorithm.
 
-As a starting point, we're using the workshop example that generates prompts that are in the form of a set of words. 
+As a starting point, we're using the workshop example that generates prompts which are in the form of a set of words. These sets of words will be evoloved to produce an output that will be similar to an supplied desired output. 
 
-The genetic algorithm operates on binary genotypes, performing operations such as crossover and mutation to explore the space of possible prompts. The genetic algorithm aims to discover prompts that are effective in guiding the LLM to produce text with the desired sentiment.
+The genetic algorithm operates on binary genotypes, performing operations such as crossover and mutation to explore the space of possible prompts & experiment with solutions.
+
+By executing the genetic algorithm, we are able to evolve, manipulate, and select prompts that produce outputs similar to the desired output.
