@@ -16,8 +16,8 @@ def alternator(x):
 
 # define the total iterations
 n_iter = 100
-# bits
-n_bits = 20
+# bits - Increased to 30, rather than 20. This allows for longer prompts, However, not too long.
+n_bits = 30
 # define the population size
 n_pop = 100
 # crossover rate
