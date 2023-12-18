@@ -35,7 +35,7 @@ To achieve these goals effectively, the focus is on:
 
 Progress so far:
 
-As a starting point, we're using the workshop example that generates prompts which will be transformed into a set of words. These sets of words will be used as a prompt and passed on to an LLM. Through evolution & natural selection methods, the prompt the produces an output most similar to the desired output will be selected.
+As a starting point, we're using the workshop example that generates prompts which will be transformed into a set of words. These sets of words will be used as a prompt and passed on to an LLM. Through evolution & natural selection methods, the prompt that produces an output most similar to the desired output will be selected.
 
 Initially, The genetic algorithm produces binary genotypes [0,1,1,0] as prompts. After generation, the algorithm will performing operation such as crossover and mutation to explore the space of possible prompts & experiment with combined genotypes. These genotypes will be converted into strings (which contains a set of words) 
 
