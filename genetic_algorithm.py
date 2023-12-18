@@ -7,14 +7,16 @@
 #Source: https://machinelearningmastery.com/simple-genetic-algorithm-from-scratch-in-python/
 
 #Import Section:
+import numpy as np
+
 #rand() and random() are functions to import random floating-point numbers between 0 and 1
 #Useful for setting probability measures.
-from numpy.random import rand, random
+from np.random import rand, random
 
 #randint(low, high) is a function that generates an random integer between 'low' (inclusive) and 'high' (exclusive).
 #Useful for tasks like randomly initializing the genetic material (bitstrings) in the population
 
-from numpy.random import randint
+from np.random import randint
 #randrange(start, stop) is a function that generates an random integer between a range ('start' (inclusive) and 'stop' (exclusive) )
 #Useful for determining a crossover point during the genetic crossover operation (where genetic material is exchanged between 2 parents)
 from random import randrange
@@ -84,16 +86,31 @@ class GeneticAlgorithm():
         return pop[selection_x]
 
     @classmethod
-    def _crossover(cls, p1, p2, r_cross):
+    def _crossover(cls, p1, p2, r_cross, r_point=0.5):
         # children are copies of parents by default
         c1, c2 = p1.copy(), p2.copy()
         # check for recombination
         if rand() < r_cross:
-            # select crossover point that is not on the end of the string
-            pt = randint(1, len(p1) - 2)
-            # perform an even / "one-point" crossover
-            c1 = p1[:pt] + p2[pt:]
-            c2 = p2[:pt] + p1[pt:]
+            if rand() < r_point:
+                # perform single-point crossover
+                single_point = randint(1, len(p1) - 1)
+                c1 = p1[:single_point] + p2[single_point:]
+                c2 = p2[:single_point] + p1[single_point:]
+            else:
+                # perform double-point crossover
+                double_point =  [0, 0]
+
+                # choose two different points randomly
+                while double_point[0] == double_point[1]:
+                    double_point = randint(1, len(p1) - 1, size=2)
+                
+                # sort points, compare order
+                double_point = np.sort(double_point)
+                pt1, pt2 = double_point
+
+                # crossover
+                c1 = p1[:pt1] + p2[pt1:pt2] + p1[pt2:]
+                c2 = p2[:pt1] + p1[pt1:pt2] + p2[pt2:]
         return [c1, c2]
 
     @classmethod
