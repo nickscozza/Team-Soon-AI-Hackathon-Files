@@ -13,7 +13,7 @@ In the context of using Large Language Models (LLMs) to engineer prompts, a gene
 Ok, so what is the goal of our project?
 
 The goal of our project is to create a genetic algorithm to reverse engineer an effective prompt to an LLM (Large Language Model) This prompt must produce outputs similar to the desired output.
-(Note: Scott has found a dataset that contains the desired output for each prompt. Therefor)
+(Note: Scott has found a dataset that contains the desired output for each prompt. Therefore, the desired output is supplied.)
 
 Project Requirements
 
@@ -33,8 +33,9 @@ To achieve these goals effectively, the focus is on:
 
 - How to optimize the performance of the genetic algorithm.
 
-As a starting point, we're using the workshop example that generates prompts which are in the form of a set of words. These sets of words will be evoloved to produce an output that will be similar to an supplied desired output. 
+Progress so far:
+As a starting point, we're using the workshop example that generates prompts which will be transformed into a set of words. These sets of words will be used as a prompt and passed on to an LLM. Through evolution & , natural selection methods, the prompt the produces an output most similar to the desired output will be selected.
 
-The genetic algorithm operates on binary genotypes, performing operations such as crossover and mutation to explore the space of possible prompts & experiment with solutions.
+Initially, The genetic algorithm produces binary genotypes [0,1,1,0] etc. After generation, the algorithm will performing operation such as crossover and mutation to explore the space of possible prompts & experiment with combined genotypes. Each time a binary genotype is produced & manipulated (some may not be manipulated), They will be evaluated through their ability to satisfy certain requirements.
 
-By executing the genetic algorithm, we are able to evolve, manipulate, and select prompts that produce outputs similar to the desired output.
+Whichever solution produces an output most similar to the supplied target output, will be selected at the end.
