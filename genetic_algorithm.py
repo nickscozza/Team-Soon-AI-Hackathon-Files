@@ -11,15 +11,19 @@ import numpy as np
 
 #rand() and random() are functions to import random floating-point numbers between 0 and 1
 #Useful for setting probability measures.
-from np.random import rand, random
 
+from numpy.random import rand, random
 #randint(low, high) is a function that generates an random integer between 'low' (inclusive) and 'high' (exclusive).
 #Useful for tasks like randomly initializing the genetic material (bitstrings) in the population
 
-from np.random import randint
+
+from numpy.random import randint
+#randint(low, high) is a function that generates an random integer between 'low' (inclusive) and 'high' (exclusive).
+#Useful for tasks like randomly initializing the genetic material (bitstrings) in the population
+
+from random import randrange
 #randrange(start, stop) is a function that generates an random integer between a range ('start' (inclusive) and 'stop' (exclusive) )
 #Useful for determining a crossover point during the genetic crossover operation (where genetic material is exchanged between 2 parents)
-from random import randrange
 
 #Main Code section:
 # genetic algorithm
@@ -39,18 +43,17 @@ class GeneticAlgorithm():
     #n_pop = the size of the population
     #r_cross = Crossover rate, determining the probability of an crossover occuring
     #r_mut = mutation rate, determining the probability of mutation occuring.
+    #r_point = probability of performing a single or double crossover
     
-    def genetic_algorithm(cls, objective, n_bits, n_iter, n_pop, r_cross, r_mut):
+    def genetic_algorithm(cls, objective, n_bits, n_iter, n_pop, r_cross, r_mut, r_point):
         
         #initializing the pop (population) with random bitstrings
         pop = [randint(0, 2, n_bits).tolist() for _ in range(n_pop)]
-        #Code explanation:
         #randint(0, 2, n_bits) generates a random binary array of the length stored inside of n_bits
         #.tolist() converts the array into a python list. Arrays are generated until the n_pop value is reached.
         
         #Keeps track of the best solution and it's evaluation in the variable 'best' and 'best_eval'.
         best, best_eval = 0, objective(pop[0])
-        #Code explanation:
         #best is set to 0 initially, and best_eval is set to the evaluation / fitness score of the first individual in the population        
         
         #Generation loop: For the each generation,
@@ -83,7 +86,7 @@ class GeneticAlgorithm():
                 p1, p2 = selected[i], selected[i + 1]
                 
                 #Crossover and Mutation
-                for c in cls._crossover(p1, p2, r_cross):
+                for c in cls._crossover(p1, p2, r_cross, r_point):
                     # mutation
                     cls._mutation(c, r_mut)
                     # store for next generation inside of the children list
@@ -111,7 +114,7 @@ class GeneticAlgorithm():
     @classmethod
     #A crossover function that performs a crossover between 2 parents.
     #Based on the r_cross probability, it checks if a crossover will occur.
-    def _crossover(cls, p1, p2, r_cross):
+    def _crossover(cls, p1, p2, r_cross, r_point):
         # children are copies of parents by default
         c1, c2 = p1.copy(), p2.copy()
         # check for recombination

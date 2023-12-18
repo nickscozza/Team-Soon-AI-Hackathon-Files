@@ -24,6 +24,8 @@ n_pop = 100
 r_cross = 0.9
 # mutation rate
 r_mut = 1.0 / float(n_bits)
+# probability of doing a single point or double point crossover
+r_point = 0.5
 
 # perform the genetic algorithm search
 best, score = GeneticAlgorithm.genetic_algorithm(onemax,
@@ -31,6 +33,7 @@ best, score = GeneticAlgorithm.genetic_algorithm(onemax,
                                                  n_iter,
                                                  n_pop,
                                                  r_cross,
-                                                 r_mut)
+                                                 r_mut,
+                                                 r_point)
 print('Done!')
 print('f(%s) = %f' % (best, score))
