@@ -6,9 +6,6 @@
 #Acknowledgment
 #Source: https://machinelearningmastery.com/simple-genetic-algorithm-from-scratch-in-python/
 
-#IMPORTANT: Most of this code looks abnormal / strange due to experimentation with chatgpt.
-#By 18/12/23, it will be massively modifed to make sense. Thanks for your patience.
-
 #Import Section:
 #rand() and random() are functions to import random floating-point numbers between 0 and 1
 #Useful for setting probability measures.
@@ -24,17 +21,31 @@ from random import randrange
 
 #Main Code section:
 # genetic algorithm
-#
-# genetic algorithm
+
 class GeneticAlgorithm():
 
     @classmethod
+    #@classmethod indicates that the following function is a class method, not an instance method.
+    #Note: Class methods always take themselves as the first parameter, therefore "cls" represents the class itself.
+    
+    #Main function implementing the the genetic algorithm
+    #Explanation of parameters
+    #cls = the class parameter
+    #Objective = A function that evaluates the fitness of the candidate solution
+    #n_bits = The length of the the bitstrings representing individuals.
+    #n_iter = the number of generations or iterations
+    #n_pop = the size of the population
+    #r_cross = Crossover rate, determining the probability of an crossover occuring
+    #r_mut = mutation rate, determining the probability of mutation occuring.
     def genetic_algorithm(cls, objective, n_bits, n_iter, n_pop, r_cross, r_mut):
-        # initial population of random bitstring
+        #initializing the pop (population) with random bitstrings
         pop = [randint(0, 2, n_bits).tolist() for _ in range(n_pop)]
-        # keep track of best solution
+        
+        #Keeps track of the best solution and it's evaluation in the variable 'best' and 'best_eval'.
         best, best_eval = 0, objective(pop[0])
-        # enumerate generations
+        
+        #Generation loop: Iterates over generations.
+        #In each generation, the fitness is evaluated, parents are selected and the next generation is created.
         for gen in range(n_iter):
             # evaluate the fitness of all candidates in the population
             scores = [objective(c) for c in pop]
@@ -42,6 +53,8 @@ class GeneticAlgorithm():
             for i in range(n_pop):
                 if scores[i] < best_eval:
                     best, best_eval = pop[i], scores[i]
+                    
+                    #Whenever the next best solution is found, it is printed.
                     print(">%d, new best f(%s) = %.3f" % (gen, pop[i], scores[i]))
             # select parents
             selected = [cls._selection(pop, scores) for _ in range(n_pop)]
@@ -78,7 +91,7 @@ class GeneticAlgorithm():
         if rand() < r_cross:
             # select crossover point that is not on the end of the string
             pt = randint(1, len(p1) - 2)
-            # perform crossover
+            # perform an even / "one-point" crossover
             c1 = p1[:pt] + p2[pt:]
             c2 = p2[:pt] + p1[pt:]
         return [c1, c2]
