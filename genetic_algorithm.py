@@ -37,44 +37,67 @@ class GeneticAlgorithm():
     #n_pop = the size of the population
     #r_cross = Crossover rate, determining the probability of an crossover occuring
     #r_mut = mutation rate, determining the probability of mutation occuring.
+    
     def genetic_algorithm(cls, objective, n_bits, n_iter, n_pop, r_cross, r_mut):
+        
         #initializing the pop (population) with random bitstrings
         pop = [randint(0, 2, n_bits).tolist() for _ in range(n_pop)]
+        #Code explanation:
+        #randint(0, 2, n_bits) generates a random binary array of the length stored inside of n_bits
+        #.tolist() converts the array into a python list. Arrays are generated until the n_pop value is reached.
         
         #Keeps track of the best solution and it's evaluation in the variable 'best' and 'best_eval'.
         best, best_eval = 0, objective(pop[0])
+        #Code explanation:
+        #best is set to 0 initially, and best_eval is set to the evaluation / fitness score of the first individual in the population        
         
-        #Generation loop: Iterates over generations.
-        #In each generation, the fitness is evaluated, parents are selected and the next generation is created.
+        #Generation loop: For the each generation,
+        #loop until reaching the max number of iterations (0 to n_iter - 1)
         for gen in range(n_iter):
-            # evaluate the fitness of all candidates in the population
+            # evaluate the fitness of all candidates in the population using the 'objective' function
             scores = [objective(c) for c in pop]
+            
             # check for new best solution
+            #Evaluates the fitness of all individuals in the population using the 'objective' function
             for i in range(n_pop):
                 if scores[i] < best_eval:
                     best, best_eval = pop[i], scores[i]
-                    
                     #Whenever the next best solution is found, it is printed.
                     print(">%d, new best f(%s) = %.3f" % (gen, pop[i], scores[i]))
-            # select parents
+            
+            # select parents based on tournament selection (using _selection function)
             selected = [cls._selection(pop, scores) for _ in range(n_pop)]
-            # create the next generation
+            #This line is creating a list of 'selected' candidates for the next generation 
+            #by repeatedly applying the tournament selection process.
+            #it is executed for each iteration of 'n_pop'
+            
+            #Create the next generation - this generation will be converted to a list.
             children = list()
+            
+            #for in range (0 to population, incrementing by 2)
             for i in range(0, n_pop, 2):
-                # get selected parents in pairs
+                
+                #Store 2 children inside of p1 and p2 (using the index inside of the selected list)
                 p1, p2 = selected[i], selected[i + 1]
-                # crossover and mutation
+                
+                #Crossover and Mutation
                 for c in cls._crossover(p1, p2, r_cross):
                     # mutation
                     cls._mutation(c, r_mut)
-                    # store for next generation
+                    # store for next generation inside of the children list
                     children.append(c)
-            # replace population
+            # replace population with the children list
             pop = children
+        #Returns a list containing the best solution 'best' and its evaluation 'best_eval' after a specified number of generations
         return [best, best_eval]
 
     @classmethod
+    #A function that selects parents based on tournament selection
     def _selection(cls, pop, scores, k=3):
+        #k = number of individuals in tournament (which is set to 3)
+        #pop = current population of individuals. Each individual is represented as a bitstring.
+        #scores = evaluation scores
+        
         # first random selection
         selection_x = randint(len(pop))
         for x in randint(0, len(pop), k - 1):
@@ -84,6 +107,8 @@ class GeneticAlgorithm():
         return pop[selection_x]
 
     @classmethod
+    #A crossover function that performs a crossover between 2 parents.
+    #Based on the r_cross probability, it checks if a crossover will occur.
     def _crossover(cls, p1, p2, r_cross):
         # children are copies of parents by default
         c1, c2 = p1.copy(), p2.copy()
@@ -97,6 +122,7 @@ class GeneticAlgorithm():
         return [c1, c2]
 
     @classmethod
+    #A function that mutates a bi-string based on mutation rate.
     def _mutation(cls, bitstring, r_mut):
         for i in range(len(bitstring)):
             # check for a mutation
