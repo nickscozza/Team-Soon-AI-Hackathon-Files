@@ -45,7 +45,7 @@ class GeneticAlgorithm():
     #r_mut = mutation rate, determining the probability of mutation occuring.
     #r_point = probability of performing a single or double crossover
     
-    def genetic_algorithm(cls, objective, n_bits, n_iter, n_pop, r_cross, r_mut, r_point):
+    def genetic_algorithm(cls, objective, n_bits, n_iter, n_pop, r_cross, r_mut, r_point, r_ins, r_del):
         
         #initializing the pop (population) with random bitstrings
         pop = [randint(0, 2, n_bits).tolist() for _ in range(n_pop)]
@@ -86,7 +86,7 @@ class GeneticAlgorithm():
                 p1, p2 = selected[i], selected[i + 1]
                 
                 #Crossover and Mutation
-                for c in cls._crossover(p1, p2, r_cross, r_point):
+                for c in cls._crossover(p1, p2, r_cross, r_point, r_ins, r_del):
                     # mutation
                     cls._mutation(c, r_mut)
                     # store for next generation inside of the children list
@@ -112,13 +112,40 @@ class GeneticAlgorithm():
         return pop[selection_x]
 
     @classmethod
+    def _insertion(cls, bitstr):
+        """
+        Invert a random bit on the given bitstring.
+
+        Parameters:
+        - bitstr (list): bitstring to mutate
+        """
+        i = randint(len(bitstr))
+        if bitstr[i] == 1:
+            bitstr[i] = 0
+        else:
+            bitstr[i] = 1
+
+    @classmethod
+    def _deletion(cls, bitstr):
+        """
+        Delete a random bit on the given bitstring.
+        
+        Parameters:
+        - bitstr (list): bitstring to mutate
+        """
+        del bitstr[randint(len(bitstr))]
+
+    @classmethod
     #A crossover function that performs a crossover between 2 parents.
     #Based on the r_cross probability, it checks if a crossover will occur.
-    def _crossover(cls, p1, p2, r_cross, r_point):
+    def _crossover(cls, p1, p2, r_cross, r_point, r_ins, r_del):
+
         # children are copies of parents by default
         c1, c2 = p1.copy(), p2.copy()
+
         # check for recombination
         if rand() < r_cross:
+
             if rand() < r_point:
                 # perform single-point crossover
                 single_point = randint(1, len(p1) - 1)
@@ -139,6 +166,19 @@ class GeneticAlgorithm():
                 # crossover
                 c1 = p1[:pt1] + p2[pt1:pt2] + p1[pt2:]
                 c2 = p2[:pt1] + p1[pt1:pt2] + p2[pt2:]
+        
+            # possibly perform insertions on children
+            if rand() < r_ins:
+                cls._insertion(c1)
+            if rand() < r_ins:
+                cls._insertion(c2)
+
+            # possibly perform deletions on children
+            if len(c1) > 1 and rand() < r_del:
+                cls._deletion(c1)
+            if len(c2) > 1 and rand() < r_del:
+                cls._deletion(c2)
+
         return [c1, c2]
 
     @classmethod
