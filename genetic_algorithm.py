@@ -25,12 +25,11 @@ from random import randrange
 #Main Code section:
 # genetic algorithm
 #
+# genetic algorithm
 class GeneticAlgorithm():
 
     @classmethod
-    #Main function that implements the genetic algorithm. Takes several parameters.
-    #
-    def genetic_algorithm(cls, objective, n_bits, n_iter, n_pop, r_cross, r_mut, r_ins, r_del):
+    def genetic_algorithm(cls, objective, n_bits, n_iter, n_pop, r_cross, r_mut):
         # initial population of random bitstring
         pop = [randint(0, 2, n_bits).tolist() for _ in range(n_pop)]
         # keep track of best solution
@@ -52,9 +51,9 @@ class GeneticAlgorithm():
                 # get selected parents in pairs
                 p1, p2 = selected[i], selected[i + 1]
                 # crossover and mutation
-                for c in cls._crossover(p1, p2, r_cross, r_ins, r_del):
+                for c in cls._crossover(p1, p2, r_cross):
                     # mutation
-                    cls._mutation(c, r_mut, r_ins)
+                    cls._mutation(c, r_mut)
                     # store for next generation
                     children.append(c)
             # replace population
@@ -70,102 +69,24 @@ class GeneticAlgorithm():
             if scores[x] < scores[selection_x]:
                 selection_x = x
         return pop[selection_x]
-    
-    @classmethod
-    def _insertion(cls, bitstring, r_ins):
-        """
-        Perform insertion mutation on the given bitstring.
-
-        Parameters:
-        - bitstring (list): The bitstring to perform insertion mutation on.
-        - r_ins (float): The insertion rate, determining the likelihood of insertion.
-        """
-        for i in range(len(bitstring)):
-            # check for insertion mutation
-            if rand() < r_ins:
-                # insert a random bit at a random position
-                bitstring.insert(randrange(len(bitstring)), randint(0, 2))
-
-    
-    @classmethod
-    def _deletion(cls, bitstring):
-            """
-            Perform deletion mutation on the given bitstring.
-
-            Parameters:
-            - bitstring (list): The bitstring to perform deletion mutation on.
-            """
-            # delete a random bit
-            del bitstring[randrange(len(bitstring))]
-        
-        
 
     @classmethod
-    def _crossover(cls, p1, p2, r_cross, r_ins, r_del, max_children_per_parent = 20):
+    def _crossover(cls, p1, p2, r_cross):
         # children are copies of parents by default
         c1, c2 = p1.copy(), p2.copy()
-    
-        # Track the number of children generated for each parent
-        num_children_c1, num_children_c2 = 0, 0
-    
         # check for recombination
-        if random() < r_cross:
-            # perform even crossover
-            crossover_point_even = randrange(len(p1))
-            c1_even = p1[:crossover_point_even] + p2[crossover_point_even:]
-            c2_even = p2[:crossover_point_even] + p1[crossover_point_even:]
-
-            # perform uneven crossover
+        if rand() < r_cross:
+            # select crossover point that is not on the end of the string
             pt = randint(1, len(p1) - 2)
-            c1_uneven = p1[:pt] + p2[pt:]
-            c2_uneven = p2[:pt] + p1[pt:]
-
-            # decide whether to perform insertion for even crossover
-            if random() < r_ins:
-                cls._insertion(c1_even, r_ins)
-                num_children_c1 += 1
-
-            # decide whether to perform insertion for uneven crossover
-            if random() < r_ins:
-                cls._insertion(c2_uneven, r_ins)
-                num_children_c2 += 1
-
-            # decide whether to perform deletion for even crossover
-            if random() < r_del and len(c1_even) > 1:
-                cls._deletion(c1_even)
-                num_children_c1 -= 1
-
-            # decide whether to perform deletion for uneven crossover
-            if random() < r_del and len(c2_uneven) > 1:
-                cls._deletion(c2_uneven)
-                num_children_c2 -= 1
-
-            # Check if the number of children exceeds the limit
-            if num_children_c1 >= max_children_per_parent:
-                c1_even, c2_even = [], []  # Empty lists to indicate no more children
-            if num_children_c2 >= max_children_per_parent:
-                c1_uneven, c2_uneven = [], []  # Empty lists to indicate no more children
-
-            # return both even and uneven crossover children as flat lists
-            return [c1_even, c2_even, c1_uneven, c2_uneven]
-
-        # if no recombination, return the original parents as flat lists
+            # perform crossover
+            c1 = p1[:pt] + p2[pt:]
+            c2 = p2[:pt] + p1[pt:]
         return [c1, c2]
-    
-    @classmethod
-    def _mutation(cls, bitstring, r_mut, r_ins):
-        """
-        Perform mutation on the given bitstring.
-        Parameters:
-        - bitstring (list): The bitstring to perform mutation on.
-        -  r_mut (float): The mutation rate, determining the likelihood of mutation.
-        - r_ins (float): The insertion rate, determining the likelihood of insertion.
 
-        Returns:
-        - list: The mutated bitstring.
-        """
+    @classmethod
+    def _mutation(cls, bitstring, r_mut):
         for i in range(len(bitstring)):
-            # check for mutation
+            # check for a mutation
             if rand() < r_mut:
                 # flip the bit
-                bitstring[i] = 1 - int(bitstring[i])
+                bitstring[i] = 1 - bitstring[i]
