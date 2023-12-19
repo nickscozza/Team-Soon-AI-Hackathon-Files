@@ -11,7 +11,7 @@ qa_data, prompt_df = get_processed_data()
 question, expected_answer = qa_data.iloc[0][['Question', 'Answer']]
 
 # Load the model and tokenizer
-model_name = "mistralai"
+model_name = "mistralai" # Set the directory where the llm model is stored
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = AutoModelForCausalLM.from_pretrained(model_name)
 
