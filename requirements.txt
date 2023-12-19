@@ -5,3 +5,5 @@ starlette
 -e git+https://github.com/hypercycle-development/pyhypercycle-aim.git#egg=pyhypercycle_aim
 requests
 pytest
+pandas
+string
