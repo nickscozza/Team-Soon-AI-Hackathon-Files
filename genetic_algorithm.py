@@ -112,28 +112,28 @@ class GeneticAlgorithm():
         return pop[selection_x]
 
     @classmethod
-    def _insertion(cls, bitstr):
+    def _insertion(cls, bitstring):
         """
-        Invert a random bit on the given bitstring.
+        Insert a random bit on the given bitstring.
 
         Parameters:
-        - bitstr (list): bitstring to mutate
+        - bitstring (list): bitstring to mutate
         """
-        i = randint(len(bitstr))
-        if bitstr[i] == 1:
-            bitstr[i] = 0
+        i = randint(len(bitstring))
+        if bitstring[i] == 1:
+            bitstring[i] = 0
         else:
-            bitstr[i] = 1
+            bitstring[i] = 1
 
     @classmethod
-    def _deletion(cls, bitstr):
+    def _deletion(cls, bitstring):
         """
-        Delete a random bit on the given bitstring.
+        Delete a random bit on the given bitstring
         
         Parameters:
-        - bitstr (list): bitstring to mutate
+        - bitstring (list): bitstring to mutate
         """
-        del bitstr[randint(len(bitstr))]
+        del bitstring[randint(len(bitstring))]
 
     @classmethod
     #A crossover function that performs a crossover between 2 parents.
