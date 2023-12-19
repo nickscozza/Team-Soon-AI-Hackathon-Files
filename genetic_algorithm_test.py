@@ -26,6 +26,10 @@ r_cross = 0.9
 r_mut = 1.0 / float(n_bits)
 # probability of doing a single point or double point crossover
 r_point = 0.5
+#Probability of inserting an point
+r_ins = 0.2
+#Probability of deleting a point
+r_del = 0.3
 
 # perform the genetic algorithm search
 best, score = GeneticAlgorithm.genetic_algorithm(onemax,
@@ -34,6 +38,8 @@ best, score = GeneticAlgorithm.genetic_algorithm(onemax,
                                                  n_pop,
                                                  r_cross,
                                                  r_mut,
-                                                 r_point)
+                                                 r_point,
+                                                 r_ins,
+                                                 r_del)
 print('Done!')
 print('f(%s) = %f' % (best, score))
