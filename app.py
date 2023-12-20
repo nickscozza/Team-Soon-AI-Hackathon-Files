@@ -45,7 +45,7 @@ with open("top_prompts_per_generation.txt", "w") as file:
         population.extend(new_individuals)
 
         # Evaluate fitness of each individual
-        fitness_scores = [evaluate_fitness(' '.join(individual), "expected_answer") for individual in population]
+        fitness_scores = [evaluate_fitness(individual) for individual in population]
 
         # Combine individuals and their fitness scores
         population_with_fitness = list(zip(population, fitness_scores))

@@ -77,5 +77,8 @@ def get_model_response_and_perplexity(input_text):
         outputs = model(**inputs, labels=inputs["input_ids"])
     loss = outputs.loss
     perplexity = torch.exp(loss).item()
-    response = tokenizer.decode(outputs.logits.argmax(dim=-1), skip_special_tokens=True)
+    # Flatten the output to a 1D list
+    logits_flat = outputs.logits.argmax(dim=-1).view(-1).tolist()
+    # Decode the flattened list of token IDs
+    response = tokenizer.decode(logits_flat, skip_special_tokens=True)
     return response, perplexity

@@ -1,4 +1,5 @@
 numpy
+pandas
 wonderwords
 vaderSentiment
 starlette
@@ -7,3 +8,5 @@ requests
 pytest
 pandas
 string
+transformers
+
