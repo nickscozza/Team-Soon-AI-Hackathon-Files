@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import pandas as pd
 import random
 from data_pipeline import get_processed_data
@@ -112,7 +113,8 @@ with open("top_prompts_per_generation.txt", "w") as file:
 # # Insertion function
 # def insert(parent):
 #     if len(parent) < 6:
-#         parent.insert(random.randint(0, len(parent)), random.choice(phrases))
+    """_summary_
+    """#         parent.insert(random.randint(0, len(parent)), random.choice(phrases))
 
 # # Deletion function
 # def delete(parent):
