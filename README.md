@@ -1,16 +1,5 @@
 # AI-Hackathon
-
-Quick Definitions: 
-
-What is an LLM?
-
-A Large Language Model is an advanced artificial intelligence model designed to process and generate human-like text. Similar to ChatGPT 3.5.
-
-What are genetic algorithms?
-
-In the context of using Large Language Models (LLMs) to engineer prompts, a genetic algorithm (GA) can be employed as a method for optimizing or evolving prompts to achieve specific objectives. In our case, we are evolving prompts to produce outputs that are similar to the provided target output. (Contained within a csv file)
-
-Ok, so what is the goal of our project?
+What is the goal of our project?
 
 The goal of our project is to create a genetic algorithm to reverse engineer an effective prompt to an LLM (Large Language Model) This prompt must produce outputs similar to the supplied desired output.
 (Note: Scott has found a dataset that contains the desired output for each prompt. Therefore, the desired output is supplied.)
