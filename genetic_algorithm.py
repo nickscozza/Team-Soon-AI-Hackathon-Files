@@ -1,4 +1,5 @@
 #Header Section:
+
 #Path to the Python 3 Interpreter
 #!/usr/bin/env python3
 #Encoding Declaration (utf-8)
@@ -41,8 +42,8 @@ class GeneticAlgorithm():
     #n_bits = The length of the the bitstrings representing individuals.
     #n_iter = the number of generations or iterations
     #n_pop = the size of the population
-    #r_cross = Crossover rate, determining the probability of an crossover occuring
-    #r_mut = mutation rate, determining the probability of mutation occuring.
+    #r_cross = Crossover rate, determining the probability of an crossover occurring
+    #r_mut = mutation rate, determining the probability of mutation occurring.
     #r_point = probability of performing a single or double crossover
     
     def genetic_algorithm(cls, objective, n_bits, n_iter, n_pop, r_cross, r_mut, r_point, r_ins, r_del):
