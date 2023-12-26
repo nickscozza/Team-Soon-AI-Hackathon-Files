@@ -23,26 +23,27 @@ The Current Large Language Model this project is using is Mistral AI (a.k.a Mist
 
 - The model incorporates grouped-query attention (GQA) for faster inference and sliding window attention (SWA) to handle sequences of arbitrary length efficiently and with reduced inference cost.
 
-- What does Inference mean?
-Inference refers to the process of generating predictions or responses based on a trained language model. 
+What does Inference mean?
+
+- Inference refers to the process of generating predictions or responses based on a trained language model. 
 
 Once a language model, such as Mistral AI LLM, has been trained on a dataset and has learned patterns and relationships within the data, inference involves using hte model to make predictions or generate text given a new input. 
 
 Once the program performs inference (generating text given a new input), the language model evaluates the fitness of the generated prompts or sequences. This helps assess the quality of the generated prompts.
 
-- What does grouped-query attention (GQA) mean?
+What does grouped-query attention (GQA) mean?
 
-Grouped Query Attention (GQA) is a mechanism used in language models, particularly in the context of attention mechanisms in neural networks. To understand GQA, we must break it down.
+- Grouped Query Attention (GQA) is a mechanism used in language models, particularly in the context of attention mechanisms in neural networks. To understand GQA, we must break it down.
 
- 1. What are attention mechanisms?
- In neural networks, especially in natural language processing tasks, attention mechanisms are used to focus on different parts of the input sequence when generating an output (E.g An attention mechanism will help the model focus on the most relevant words of the prompt. This improves the context-awareness of the model before generating an output.)
+What are attention mechanisms?
+- In neural networks, especially in natural language processing tasks, attention mechanisms are used to focus on different parts of the input sequence when generating an output (E.g An attention mechanism will help the model focus on the most relevant words of the prompt. This improves the context-awareness of the model before generating an output.)
 
 
-2. What is Grouped Query Attention (GQA)?
-GQA is an specific type or modification of attention mechanisms. It's purpose is to improve the efficiency of attention computations during the inference phase.
+What is Grouped Query Attention (GQA)?
+- GQA is an specific type or modification of attention mechanisms. It's purpose is to improve the efficiency of attention computations during the inference phase.
 
-- How does it work?
-It groups queries (typically tokens or words) in a way that allows the model to attend to them collectively. This reduces the computational cost of attending to individual queries independently.
+How does it work?
+- It groups queries (typically tokens or words) in a way that allows the model to attend to them collectively. This reduces the computational cost of attending to individual queries independently.
 
 For example, without GQA - Attention mechanism attends to each word within the prompt individually.
 
