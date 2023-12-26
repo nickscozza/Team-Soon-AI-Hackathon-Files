@@ -74,8 +74,22 @@ Remaining Attention (0.3)
 
 - What does sliding window attention (SWA) mean?
 
+SWA is not directly related to genetic algorithms, but is a component of attention mechanisms commonly used in natural language processing (NLP) and neural network models, such as LLMS.
+
+SWA works through a fixed subset of elements within a prompt.
+
+E.g [1,2,3,4,5,6]
+The sliding window would begin by focusing on the first 3 elements of the set [1,2,3].
+
+By focusing on that subset, it allows a model to capture the context of substring efficiently. Once it's finished, it iterates to the next subset within the prompt [4,5,6]. Then, focuses and repeats the process.
+
+This SWA method is beneficial for processing long sequences / prompts. By focusing on small subsets, it is much more efficient than attending to the entire sequence.
+
+
 ## Step 3: Define Fitness Function
 Create a fitness function that evaluates the quality of a prompt and its corresponding response. The fitness function should quantify how well the language model performs based on the given prompt. For example, you can consider factors like relevance, correctness, and coherence.
+
+
 
 ## Step 4: Define Genetic Representation
 Represent prompts as bitstrings. Each bit in the bitstring corresponds to a specific aspect or token in the prompt. Define a mapping that translates bitstrings into actual prompts that the language model can understand.
