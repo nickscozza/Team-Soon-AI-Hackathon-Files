@@ -23,11 +23,56 @@ The Current Large Language Model this project is using is Mistral AI (a.k.a Mist
 
 - The model incorporates grouped-query attention (GQA) for faster inference and sliding window attention (SWA) to handle sequences of arbitrary length efficiently and with reduced inference cost.
 
-- What does grouped-query attention (GQA) and inference mean?
+- What does Inference mean?
+Inference refers to the process of generating predictions or responses based on a trained language model. 
+
+Once a language model, such as Mistral AI LLM, has been trained on a dataset and has learned patterns and relationships within the data, inference involves using hte model to make predictions or generate text given a new input. 
+
+Once the program performs inference (generating text given a new input), the language model evaluates the fitness of the generated prompts or sequences. This helps assess the quality of the generated prompts.
+
+- What does grouped-query attention (GQA) mean?
+
+Grouped Query Attention (GQA) is a mechanism used in language models, particularly in the context of attention mechanisms in neural networks. To understand GQA, we must break it down.
+
+ 1. What are attention mechanisms?
+ In neural networks, especially in natural language processing tasks, attention mechanisms are used to focus on different parts of the input sequence when generating an output (E.g An attention mechanism will help the model focus on the most relevant words of the prompt. This improves the context-awareness of the model before generating an output.)
+
+
+2. What is Grouped Query Attention (GQA)?
+GQA is an specific type or modification of attention mechanisms. It's purpose is to improve the efficiency of attention computations during the inference phase.
+
+- How does it work?
+It groups queries (typically tokens or words) in a way that allows the model to attend to them collectively. This reduces the computational cost of attending to individual queries independently.
+
+For example, without GQA - Attention mechanism attends to each word within the prompt individually.
+
+Prompt: "Evolve prompts for a chatbot"
+Attention: [0.1, 0.05, 0.2, 0.8] #Higher attention on chatbot
+
+The attention spread is spread across individual words, with a higher weight on "chatbot" - context of prompt.
+
+With GQA - Attention mechanisms groups queries / words together, resulting in attention being efficiently processed in the prompt.
+
+Prompt: "Evolve prompts for a chatbot"
+Attention: [0.3, 0.4, 0.3]
+
+Using GQA, the queries are grouped together and for efficient processing:
+
+Attention Spread breakdown
+
+"Evolve prompts for a" Group
+- Query: "Evolve prompts for a"
+- Attention weight: 0.3 (hypothetical value)
+
+"Chatbot" group
+- Attention Weight: 0.4 (hypothetical value)
+- Attention weight is higher. This due to the context value of the query
+
+Remaining Attention (0.3)
+- This could represent the attention assigned to the remaining context or words in the prompt that are not part of a grouped query. It is necessary as it ensures that the attention weight sums to 1, reflecting the entire prompt.
+
 
 - What does sliding window attention (SWA) mean?
-
-
 
 ## Step 3: Define Fitness Function
 Create a fitness function that evaluates the quality of a prompt and its corresponding response. The fitness function should quantify how well the language model performs based on the given prompt. For example, you can consider factors like relevance, correctness, and coherence.
