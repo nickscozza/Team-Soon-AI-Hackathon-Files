@@ -17,7 +17,6 @@ from numpy.random import rand, random
 #randint(low, high) is a function that generates an random integer between 'low' (inclusive) and 'high' (exclusive).
 #Useful for tasks like randomly initializing the genetic material (bitstrings) in the population
 
-
 from numpy.random import randint
 #randint(low, high) is a function that generates an random integer between 'low' (inclusive) and 'high' (exclusive).
 #Useful for tasks like randomly initializing the genetic material (bitstrings) in the population
@@ -45,9 +44,10 @@ class GeneticAlgorithm():
     #r_cross = Crossover rate, determining the probability of an crossover occurring
     #r_mut = mutation rate, determining the probability of mutation occurring.
     #r_point = probability of performing a single or double crossover
+
     
     def genetic_algorithm(cls, objective, n_bits, n_iter, n_pop, r_cross, r_mut, r_point, r_ins, r_del):
-        
+        print("welcome")
         #initializing the pop (population) with random bitstrings
         pop = [randint(0, 2, n_bits).tolist() for _ in range(n_pop)]
         #randint(0, 2, n_bits) generates a random binary array of the length stored inside of n_bits

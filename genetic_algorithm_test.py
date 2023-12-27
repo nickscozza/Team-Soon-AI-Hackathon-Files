@@ -31,7 +31,7 @@ r_ins = 0.2
 #Probability of deleting a point
 r_del = 0.3
 
-# perform the genetic algorithm search
+# perform the genetic algorithm search. Calling the function
 best, score = GeneticAlgorithm.genetic_algorithm(onemax,
                                                  n_bits,
                                                  n_iter,
