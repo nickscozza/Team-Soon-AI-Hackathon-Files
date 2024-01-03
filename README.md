@@ -1,127 +1,77 @@
-# AI-Hackathon - Project Continued: Enhancing Prompts to Improve Accuracy.
-
-## Quick Definitions: 
+Quick Definitions:
 What is an LLM?
 
 A Large Language Model is an advanced artificial intelligence model designed to process and generate human-like text. These models, such as OpenAI's GPT-3.5, have been trained on a vast amount of internet text to learn patterns, grammar, and factual information.
 
 What are genetic algorithms?
 
-In the context of using Large Language Models (LLMs) to engineer prompts, a genetic algorithm (GA) can be employed as a method for optimizing or evolving prompts to achieve specific objectives. 
-## Step 1: Define the problem our project is solving:
-In this case, the goal is to enhance the prompts used for a language model to improve the accuracy and context relevance of its responses.
-## Step 2: Understand the Current System
-The Current Large Language Model this project is using is Mistral AI (a.k.a Mistralai). 
+In the context of using Large Language Models (LLMs) to engineer prompts, a genetic algorithm (GA) can be employed as a method for optimizing or evolving prompts to achieve specific objectives.
 
-- It is a pre-trained Deep Learning model (Meaning that it has been trained on large datasets to accomplish a specific task already.)
+Ok, so what is the goal of our project?
 
-- Even though it is a pre-trained model, it can be used without modifying it or, if needed, customized to suit application requirements across industries (Accounting, healthcare etc.)
-### About the LLM
-- Mistral 7B v0.1 is a 7-billion-parameter language model focused on superior performance and efficiency.
+The goal of our project is to create a genetic algorithm to reverse engineer an effective prompt to an LLM (Large Language Model) that will cause the LLM to generate output similar to a supplied target output.
 
-- Mistral 7B outperforms Llama 2 13B in all evaluated benchmarks and surpasses Llama 1 34B in reasoning, mathematics, and code generation.
+Project Requirements
 
-- The model incorporates grouped-query attention (GQA) for faster inference and sliding window attention (SWA) to handle sequences of arbitrary length efficiently and with reduced inference cost.
+Determine the kind of output that you want to engineer a prompt for (this should be a solution to some simple practical problem)
 
-What does Inference mean?
+Determine how to encode the prompts so that the genetic algorithm can be applied
 
-- Inference refers to the process of generating predictions or responses based on a trained language model. 
+Determine how to calculate the fitness of a prompt, based on some measure of how well the LLM output generated from the prompt solves the simple practical problem.
 
-Once a language model, such as Mistral AI LLM, has been trained on a dataset and has learned patterns and relationships within the data, inference involves using hte model to make predictions or generate text given a new input. 
+Keep in mind that this will require making calls to the LLM to evaluate the fitness, so you will need to be mindful of how to optimize this computation to make it feasible to run the genetic algorithm.
 
-Once the program performs inference (generating text given a new input), the language model evaluates the fitness of the generated prompts or sequences. This helps assess the quality of the generated prompts.
+To achieve these goals effectively, the focus is on:
 
-What does grouped-query attention (GQA) mean?
+How to adequately represent the solution space (the set of prompts)
 
-- Grouped Query Attention (GQA) is a mechanism used in language models, particularly in the context of attention mechanisms in neural networks. To understand GQA, we must break it down.
+How to measure the fitness of solutions (including how good a prompt is at generating output similar to the target)
 
-What are attention mechanisms?
-- In neural networks, especially in natural language processing tasks, attention mechanisms are used to focus on different parts of the input sequence when generating an output (E.g An attention mechanism will help the model focus on the most relevant words of the prompt. This improves the context-awareness of the model before generating an output.)
+How to optimize the performance of the genetic algorithm.
 
+As a starting point, we're using the workshop example that generates prompts. Initially, these prompts are in the form of binary genotypes (a.k.a binary lists). [0,1,1,0,1] etc.
 
-What is Grouped Query Attention (GQA)?
-- GQA is an specific type or modification of attention mechanisms. It's purpose is to improve the efficiency of attention computations during the inference phase.
+To determine the fitness / similarity of the prompt, the binary genotype is first converted into a phenotype (as the output). the type of phenotype can be determined by the team, however an example is an set of adjectives.
 
-How does it work?
-- It groups queries (typically tokens or words) in a way that allows the model to attend to them collectively. This reduces the computational cost of attending to individual queries independently.
+Once provided to an LLM, the fitness of the prompt is based on the similarity of the output generated (Phenotype) when compared with the target output.
 
-For example, without GQA - Attention mechanism attends to each word within the prompt individually.
+The objective of the program is to generate then specify prompts that when provided to the LLM, generate outputs that are similar to the target output.
 
-Prompt: "Evolve prompts for a chatbot"
-Attention: [0.1, 0.05, 0.2, 0.8] #Higher attention on chatbot
+To discover prompts that are effective in guiding the LLM to produce output (phenotypes) which is similar to the desired output, the program utilizes an genetic algorithm.
 
-The attention spread is spread across individual words, with a higher weight on "chatbot" - context of prompt.
+The genetic algorithm operates on binary genotypes, performing operations such as crossover and mutation to explore the space of possible prompts.
 
-With GQA - Attention mechanisms groups queries / words together, resulting in attention being efficiently processed in the prompt.
+No LLM Call in Example:
 
-Prompt: "Evolve prompts for a chatbot"
-Attention: [0.3, 0.4, 0.3]
+It's important to note that in the given example, there is no direct call to the LLM. The output is the same as the prompt, and the sentiment similarity is computed based on the generated set of adjectives.
 
-Using GQA, the queries are grouped together and for efficient processing:
+In our project, we will be making a direct call to the LLM. Therefore, will be able to evaluate the fitness score / similarity of the outputs generated.
 
-Attention Spread breakdown
+To also help explain the process of genetic algorithms, here is an explanation:
 
-"Evolve prompts for a" Group
-- Query: "Evolve prompts for a"
-- Attention weight: 0.3 (hypothetical value)
+Representation of Prompts:
+In the context of prompt engineering, a prompt can be represented as a sequence of tokens or words.
 
-"Chatbot" group
-- Attention Weight: 0.4 (hypothetical value)
-- Attention weight is higher. This due to the context value of the query
+Initialization:
+The process starts with an initial population of prompts. Each prompt in the population is a potential candidate for generating desirable outputs from the LLM.
 
-Remaining Attention (0.3)
-- This could represent the attention assigned to the remaining context or words in the prompt that are not part of a grouped query. It is necessary as it ensures that the attention weight sums to 1, reflecting the entire prompt.
+Evaluation:
+The prompts in the population are fed into the LLM, and the resulting outputs are evaluated based on certain criteria or objectives. This could involve measuring the relevance, informativeness, or other qualities of the generated text. As a group, we need to determine the criteria that our prompt needs to satisfy. E.g the problem we're trying to solve.
 
+Selection:
+Prompts that lead to more desirable outputs are selected to be parents for the next generation. The selection process is influenced by the fitness / evaluation scores achieved.
 
-- What does sliding window attention (SWA) mean?
+Crossover (Recombination):
+Pairs of the selected prompts are combined to create new prompts through a process called crossover or recombination. This mimics the idea of genetic crossover, where genetic material is exchanged between parents.
 
-SWA is not directly related to genetic algorithms, but is a component of attention mechanisms commonly used in natural language processing (NLP) and neural network models, such as LLMS.
+Mutation:
+Some prompts in the new generation undergo mutation, introducing small random changes. This introduces exploration and prevents the algorithm from getting stuck in local optima.
 
-SWA works through a fixed subset of elements within a prompt.
+Replacement:
+The new generation of prompts replaces the old one, forming the next population.
 
-E.g [1,2,3,4,5,6]
-The sliding window would begin by focusing on the first 3 elements of the set [1,2,3].
-
-By focusing on that subset, it allows a model to capture the context of substring efficiently. Once it's finished, it iterates to the next subset within the prompt [4,5,6]. Then, focuses and repeats the process.
-
-This SWA method is beneficial for processing long sequences / prompts. By focusing on small subsets, it is much more efficient than attending to the entire sequence.
-
-
-## Step 3: Define Fitness Function
-Create a fitness function that evaluates the quality of a prompt and its corresponding response. The fitness function should quantify how well the language model performs based on the given prompt. For example, you can consider factors like relevance, correctness, and coherence.
-
-
-
-## Step 4: Define Genetic Representation
-Represent prompts as bitstrings. Each bit in the bitstring corresponds to a specific aspect or token in the prompt. Define a mapping that translates bitstrings into actual prompts that the language model can understand.
-
-## Step 5: Implement the Genetic Algorithm
-Use the provided genetic algorithm as a template. Integrate it with your language model and fitness function. Customize the genetic operations (crossover, mutation, insertion, deletion) to manipulate prompts effectively.
-
-## Step 6: Initialization
-Create an initial population of prompts (bitstrings). These prompts can be randomly generated or based on your domain knowledge. Ensure diversity in the initial population.
-
-## Step 7: Evolution Loop
-Run the genetic algorithm through multiple generations. In each generation:
-
-Evaluate the fitness of each prompt-response pair using the defined fitness function.
-Select the top-performing prompts based on fitness scores.
-Apply genetic operations (crossover, mutation, insertion, deletion) to create a new generation of prompts.
-Introduce new, random prompts for diversity.
-
-## Step 8: Evaluate and Iterate
-After the specified number of generations, evaluate the final population of prompts. Identify the prompts with the highest fitness scores. Test these optimized prompts with your language model.
-
-If the performance is satisfactory, you've successfully enhanced the prompts. If not, consider refining the fitness function or adjusting genetic algorithm parameters, and repeat the process.
-
-## Step 9: Results Analysis
-Analyze the responses generated using the optimized prompts. Compare them with the initial responses to assess the improvement. Use qualitative and quantitative metrics to measure success.
-
-## Step 10: Documentation and Deployment
-Document the entire process, including the problem definition, algorithm parameters, and results. If the enhanced prompts yield significant improvements, deploy the optimized prompts in your language model for real-world applications.
-
-### Important Note: Customize the steps based on your language model
-Remember to customize the steps based on the specific characteristics and requirements of your language model and conversational AI system.
+Repeat:
+Steps 3-7 are repeated for multiple generations, allowing the prompts to evolve over time. Once the prompts are most similar to the desired output, the process ends.
 
 
 
